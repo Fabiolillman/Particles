@@ -39,9 +39,6 @@ class Particle {
   }
   // Defines what each particle looks like
   draw(context) {
-    // Hue, saturation, lightness
-    // context.fillStyle = 'hsl(' + Math.random() * 360+ ', 100%, 50%)'
-    // context.fillStyle = 'hsl(' + this.x * 0.5 + ', 100%, 50%)'
     // Draw a circle
     context.beginPath();
     // Defines a path, don't render
@@ -55,12 +52,9 @@ class Particle {
   update() {
     // Through this.effect = effect;, we are accessing mouse object
     // Calculate the distance with pythagoras theorem formula again
-    // if(this.effect.mouse.pressed){
     const dx = this.x - this.effect.mouse.x;
     const dy = this.y - this.effect.mouse.y;
     const distance = Math.hypot(dx, dy);
-
-    const force = this.effect.mouse.radius / distance;
 
     // Calculate the angel of mouse and particle
     // To know which way to push the particle, push it away from mouse
@@ -70,10 +64,15 @@ class Particle {
       const angel = Math.atan2(dy, dx);
       //  Combining sin and cos will make particle move away in a circle
       // Move same speed as mouse till they've reached the radius of the mouse
-      this.pushX += Math.cos(angel);
-      this.pushY += Math.sin(angel);
+      // Pulls if mouse is pressed   
+      if(this.effect.mouse.pressed){
+        this.pushX -= Math.cos(angel);
+        this.pushY -= Math.sin(angel);
+      } else{
+        this.pushX += Math.cos(angel);
+        this.pushY += Math.sin(angel);
+      }
     }
-    // }
 
     this.x += (this.pushX *= this.friction) + this.vx;
     this.y += (this.pushY *= this.friction) + this.vy;
@@ -94,13 +93,6 @@ class Particle {
       this.y = this.effect.height - this.radius;
       this.vy *= -1;
     }
-    // this.x+= this.vx;
-    // // If the width is less than effect width it will reverse by -1 frame
-    // // When it reaches the left edge -1 * -1 becomes 1, so it flips back to normal
-    // if(this.x>this.effect.width - this.radius || this.x<this.radius)this.vx *=-1;
-    // // This is for the Y axis, aka height
-    // if(this.y>this.effect.height - this.radius || this.y<this.radius)this.vy *=-1;
-    // this.y+= this.vy;
   }
 
   // Re-distribute the particles when resized so no particles gets stuck outside the canvas
