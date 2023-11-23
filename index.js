@@ -7,7 +7,7 @@ const canvas = document.getElementById('canvas1');
 // That is a built in object that contains all methods used for drawing
 const ctx = canvas.getContext('2d');
 canvas.width=window.innerWidth;
-canvas.height=window.innerWidth
+canvas.height=window.innerHeight;
 
 ctx.lineWidth=2,
 console.log(ctx)
