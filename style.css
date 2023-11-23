@@ -3,6 +3,16 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+#container{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    background-color: red;
+    width: 60%;
+    height: 5rem;
+}
 #canvas1{
     background-color: black;
     position: absolute;

@@ -7,15 +7,41 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 (ctx.lineWidth = 2), console.log(ctx);
+
+let startColor = "green";
+let middleColor = "teal";
+let endColor = "white";
+
+
 // Expect 4 argument to define the direction of the gradient
 const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
 // Expect 2 argument, offset and color
 // 0 is the start of the gradient, 1, end of gradient
-gradient.addColorStop(0, "green");
-gradient.addColorStop(0.5, "teal");
-gradient.addColorStop(1, "white");
+gradient.addColorStop(0, startColor);
+gradient.addColorStop(0.5, middleColor);
+gradient.addColorStop(1, endColor);
 ctx.fillStyle = gradient;
 ctx.strokeStyle = "white";
+
+
+function updateGradient() {
+    startColor = document.getElementById("startColor").value;
+    middleColor = document.getElementById("middleColor").value;
+    endColor = document.getElementById("endColor").value;
+
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, startColor);
+    gradient.addColorStop(0.5, middleColor);
+    gradient.addColorStop(1, endColor);
+
+    ctx.fillStyle = gradient;
+}
+
+function changeParticleCount() {
+    const particleCountDropdown = document.getElementById("particleCount");
+    const selectedParticleCount = parseInt(particleCountDropdown.value);
+    effect.changeParticleCount(selectedParticleCount);
+}
 
 // Contains blueprint for individual particle object
 class Particle {
@@ -217,22 +243,36 @@ class Effect {
     this.canvas.height = height;
     this.width = width;
     this.height = height;
+
     // Redeclare fillstyle since it will be returned to default state
     // When it's reset you need to recalculate the direction and breakpoints
     const gradient = this.context.createLinearGradient(0, 0, width, height);
     // Expect 2 argument, offset and color
     // 0 is the start of the gradient, 1, end of gradient
-    gradient.addColorStop(0, "green");
-    gradient.addColorStop(0.5, "teal");
-    gradient.addColorStop(1, "white");
+    gradient.addColorStop(0, startColor);
+    gradient.addColorStop(0.5, middleColor);
+    gradient.addColorStop(1, endColor);
     this.context.fillStyle = gradient;
-    this.context.strokeStyle = "white";
+    this.context.strokeStyle = endColor;
+
 
     // The particle will always try to fit the canvas when resized
     this.particles.forEach(particle => {
       particle.reset();
     });
   }
+
+
+  changeParticleCount(newParticleCount) {
+    // Change the count to the new value
+    this.numberOfParticles = newParticleCount;
+    // Empties the particle array so it's not just constantly incrimented
+    this.particles = [];
+    // Create new particles count
+    this.createParticles();
+}
+
+
 }
 
 // Pass the canvas and context to the new Effect

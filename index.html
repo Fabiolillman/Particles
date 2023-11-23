@@ -7,7 +7,28 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <canvas id="canvas1"></canvas>
     <script src="index.js"></script>
+    <div id="container">
+        <label for="particleCount">Number of Particles:</label>
+        <select id="particleCount" onchange="changeParticleCount()">
+            <option value="100">100</option>
+            <option value="200">200</option>
+            <option value="300">300</option>
+            <!-- Add more options as needed -->
+        </select>
+        <div>
+            <label for="startColor">Start Color:</label>
+            <input type="text" id="startColor" oninput="updateGradient()">
+        </div>
+        <div>
+            <label for="middleColor">Middle Color:</label>
+            <input type="text" id="middleColor" oninput="updateGradient()">
+        </div>
+        <div>
+            <label for="endColor">End Color:</label>
+            <input type="text" id="endColor" oninput="updateGradient()">
+        </div>
 </body>
 </html>
