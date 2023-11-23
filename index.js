@@ -23,7 +23,7 @@ class Particle {
   //Not creating copies of effect, just pointing at effect class from multiple places
   constructor(effect) {
     this.effect = effect;
-    this.radius = Math.floor(Math.random() * 10 + 5);
+    this.radius = Math.floor(Math.random() * 15 + 5);
     this.x =
       this.radius + Math.random() * (this.effect.width - this.radius * 2);
     this.y =
@@ -66,9 +66,11 @@ class Particle {
       // Move same speed as mouse till they've reached the radius of the mouse
       // Pulls if mouse is pressed   
       if(this.effect.mouse.pressed){
+        this.effect.mouse.radius = 300,
         this.pushX -= Math.cos(angel);
         this.pushY -= Math.sin(angel);
       } else{
+        this.effect.mouse.radius = 150,
         this.pushX += Math.cos(angel);
         this.pushY += Math.sin(angel);
       }
