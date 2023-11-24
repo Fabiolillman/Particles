@@ -11,13 +11,15 @@
     <canvas id="canvas1"></canvas>
     <script src="index.js"></script>
     <div id="container">
-        <label for="particleCount">Number of Particles:</label>
-        <select id="particleCount" onchange="changeParticleCount()">
-            <option value="100">100</option>
-            <option value="200">200</option>
-            <option value="300">300</option>
-            <!-- Add more options as needed -->
-        </select>
+        <div>
+            <label for="mouseRepelRadius">Mouse Repel Radius:</label>
+            <input type="text" id="mouseRepelRadius" oninput="changeMouseRepelRadius()">
+        </div>
+        
+        <div>
+            <label for="particleCount">Particle count:</label>
+            <input type="text" id="particleCount" oninput="changeParticleCount()">
+        </div>
         <div>
             <label for="startColor">Start Color:</label>
             <input type="text" id="startColor" oninput="updateGradient()">
@@ -30,5 +32,6 @@
             <label for="endColor">End Color:</label>
             <input type="text" id="endColor" oninput="updateGradient()">
         </div>
+    </div>
 </body>
 </html>
