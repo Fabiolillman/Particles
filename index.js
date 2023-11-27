@@ -18,6 +18,9 @@ gradient.addColorStop(1, 'white');
 ctx.fillStyle = gradient;
 ctx.strokeStyle = "white";
 
+let startColor = "green";
+let middleColor = "teal";
+let endColor = "white";
 
 function updateGradient() {
     // Retrieve the elements
