@@ -17,7 +17,8 @@ gradient.addColorStop(1, "white");
 ctx.fillStyle = gradient;
 ctx.strokeStyle = "white";
 
-// Contains blueprint for individual particle object
+// Contains blueprint for individual particle object 
+// 
 class Particle {
   // OOP to keep classes modular and independent
   //Not creating copies of effect, just pointing at effect class from multiple places
