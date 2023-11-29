@@ -3,11 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="This page lets you interact with particles through mouse eventlisteners, you can also toggle menu to let you make changes to particles color, amount and size, as well as the stroke color and the mouse radius. ">
     <title>Particles</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nova+Square&family=Roboto:ital,wght@0,100;0,300;0,400;1,100;1,300&display=swap" rel="stylesheet">
 </head>
 <body>
+
     <canvas id="canvas1"></canvas>
     <script src="index.js"></script>
+    <div id="container">
+
+        <div id="input-container">
+            <h2>Controller</h2>
+            <div class="item-wrapper">
+                <label for="mouseRepelRadius" onclick="toggleInput('mouseRepelRadius')">Mouse Repel Radius</label>
+                <div class="toggle-input-container">
+                    <input placeholder="100" class="input-field" type="text" id="mouseRepelRadius" oninput="changeMouseRepelRadius()">
+                </div>
+            </div>
+            
+            <div class="item-wrapper">
+                <label for="particleCount" onclick="toggleInput('particleCount')">Particle count</label>
+                <div class="toggle-input-container">
+                    <input placeholder="200" class="input-field" type="text" id="particleCount" oninput="changeParticleCount()">
+                </div>
+            </div>
+            <div class="item-wrapper">
+                <label for="particleSizeFrom particleSizeTo" onclick="toggleInputFromTo('to-from')">Particle Size Range</label>
+                <div class="from-to-wrap" id="to-from">
+                <h4>Between</h4>
+                <div class="size-range-input-wrapper" >
+                    <input placeholder="15" class="input-from-to-field" type="text" id="particleSizeFrom" oninput="updateParticleSizeFrom()">
+                    <p>-</p>
+                    <input placeholder="5" class="input-from-to-field" type="text" id="particleSizeTo" oninput="updateParticleSizeTo()">
+                </div>
+            </div>
+            </div>
+            <div class="item-wrapper">
+                <label for="startColor" onclick="toggleInput('startColor')">Start Color</label>
+                <div class="toggle-input-container">
+                    <input placeholder="green" class="input-field" type="text" id="startColor" oninput="updateGradient()">
+                </div>
+            </div>
+            <div class="item-wrapper">
+                <label for="middleColor" onclick="toggleInput('middleColor')">Middle Color</label>
+                <div class="toggle-input-container">
+                    <input placeholder="teal" class="input-field" type="text" id="middleColor" oninput="updateGradient()">
+                </div>
+            </div>
+            <div class="item-wrapper">
+                <label for="endColor" onclick="toggleInput('endColor')">End Color</label>
+                <div class="toggle-input-container">
+                    <input placeholder="white" class="input-field" type="text" id="endColor" oninput="updateGradient()">
+                </div>
+            </div>
+            <div class="item-wrapper">
+                <label for="stroke" onclick="toggleInput('strokeColor')">Stroke Color</label>
+                <div class="toggle-input-container">
+                    <input placeholder="white" class="input-field" type="text" id="strokeColor" oninput="updateStroke()">
+                </div>
+            </div>
+        </div>
+        <button aria-label="toggle menu button" id="toggleController" onclick="toggleMenu()" ></button>
+
+        <script>
+            function toggleInputFromTo(inputId) {
+                const inputField = document.getElementById(inputId);
+                inputField.classList.toggle('from-to-wrap-visible');
+            }
+
+            function toggleInput(inputId) {
+                const inputField = document.getElementById(inputId);
+                inputField.classList.toggle('input-visible');
+            }
+
+            function toggleMenu() {
+                const container = document.getElementById('container');
+                container.classList.toggle('active');
+            }
+        </script>
+    </div>
 </body>
 </html>
