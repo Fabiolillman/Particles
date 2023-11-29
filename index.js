@@ -1,5 +1,12 @@
 const canvas = document.getElementById("canvas1");
 
+let strokeColor = "white";
+let startColor = "green";
+let middleColor = "teal";
+let endColor = "white";
+let particleSizeFrom = 15
+let particleSizeTo = 5
+
 // Create an instance of CanvasRenderingContext2D
 // That is a built in object that contains all methods used for drawing
 const ctx = canvas.getContext("2d");
@@ -16,11 +23,40 @@ gradient.addColorStop(0, 'green');
 gradient.addColorStop(0.5, 'teal');
 gradient.addColorStop(1, 'white');
 ctx.fillStyle = gradient;
-ctx.strokeStyle = "white";
+ctx.strokeStyle = strokeColor;
 
-let startColor = "green";
-let middleColor = "teal";
-let endColor = "white";
+
+function updateParticleSizeFrom() {
+  const particleSizeFromInput = document.getElementById("particleSizeFrom");
+  const selectedParticleSizeFrom = parseInt(particleSizeFromInput.value);
+  
+  // Iterate through all particles and update their particleSizeFrom
+  effect.particles.forEach(particle => {
+    particle.changeParticleSizeFrom(selectedParticleSizeFrom);
+  });
+}
+
+function updateParticleSizeTo() {
+  const particleSizeToInput = document.getElementById("particleSizeTo");
+  const selectedParticleSizeTo = parseInt(particleSizeToInput.value);
+  
+  // Iterate through all particles and update their particleSizeTo
+  effect.particles.forEach(particle => {
+    particle.changeParticleSizeTo(selectedParticleSizeTo);
+  });
+}
+
+
+function updateStroke() {
+  // Retrieve the elements
+  const strokeColorInput = document.getElementById("strokeColor");
+
+  // Use their value, if no value, set a default value
+  strokeColor = strokeColorInput.value || "white";
+
+  // Re-draw new stroke color
+  ctx.strokeStyle = strokeColor;
+}
 
 function updateGradient() {
     // Retrieve the elements
@@ -38,6 +74,7 @@ function updateGradient() {
     gradient.addColorStop(0.5, middleColor);
     gradient.addColorStop(1, endColor);
 
+    // Re-draw gradient
     ctx.fillStyle = gradient;
 }
 
@@ -62,8 +99,11 @@ class Particle {
   // OOP to keep classes modular and independent
   //Not creating copies of effect, just pointing at effect class from multiple places
   constructor(effect) {
+    
     this.effect = effect;
-    this.radius = Math.floor(Math.random() * 15 + 5);
+    this.particleSizeFrom = particleSizeFrom;
+    this.particleSizeTo = particleSizeTo;
+    this.radius = Math.floor(Math.random() * particleSizeFrom + particleSizeTo);
     this.x =
       this.radius + Math.random() * (this.effect.width - this.radius * 2);
     this.y =
@@ -144,6 +184,27 @@ class Particle {
     this.y =
       this.radius + Math.random() * (this.effect.height - this.radius * 2);
   }
+
+  changeParticleSizeFrom(newSizeFrom) {
+      // Updates if it returnes NaN which happens when you clear input field
+    if(!newSizeFrom){
+      this.particleSizeFrom=15
+    }else{
+      this.particleSizeFrom = newSizeFrom;
+    }
+    // Update the radius based on the new values
+    this.radius = Math.floor(Math.random() * (this.particleSizeFrom - this.particleSizeTo) + this.particleSizeTo);
+  }
+  
+  changeParticleSizeTo(newSizeTo) {
+    if(!newSizeTo){
+      this.particleSizeTo=5
+    }else{
+      this.particleSizeTo = newSizeTo;
+    }
+    this.radius = Math.floor(Math.random() * (this.particleSizeFrom - this.particleSizeTo) + this.particleSizeTo);
+  }
+
 }
 
 //Manage all particles
@@ -157,7 +218,6 @@ class Effect {
     this.context = context;
     this.width = this.canvas.width;
     this.height = this.canvas.height;
-    // Store particles in array
     this.particles = [];
     this.numberOfParticles = 200;
     this.createParticles();
@@ -171,8 +231,7 @@ class Effect {
       radius: 150,
     };
 
-    // Use arrow function, e inherits keyword from parent scope
-    // e = Effect
+    // e = Effect. Uses arrow function, e inherits keyword from parent scope
     // This will reset canvas state to default value
     window.addEventListener("resize", e => {
       this.resize(e.target.window.innerWidth, e.target.window.innerHeight);
@@ -180,10 +239,8 @@ class Effect {
 
     window.addEventListener("mousemove", e => {
       // Assign to x,y to custom mouse object so it's available in whole codebase not just callback eventlistener
-      // if(this.mouse.pressed){
       this.mouse.x = e.x;
       this.mouse.y = e.y;
-      // }
     });
     window.addEventListener("mousedown", e => {
       this.mouse.pressed = true;
@@ -267,7 +324,7 @@ class Effect {
     gradient.addColorStop(0.5, middleColor);
     gradient.addColorStop(1, endColor);
     this.context.fillStyle = gradient;
-    this.context.strokeStyle = endColor;
+    this.context.strokeStyle = strokeColor;
 
 
     // The particle will always try to fit the canvas when resized
@@ -288,19 +345,19 @@ class Effect {
 changeMouseRepelRadius(newRadius) {
     // Change the repel radius to the new value
     this.mouse.radius = newRadius;
+    if(!newRadius){
+      this.mouse.radius = 100
+    } 
   }
 }
 
 // Pass the canvas and context to the new Effect
 const effect = new Effect(canvas, ctx);
 
-// Creat a new instance of effect
-// It expects contact
-
+// Creat a new instance of effect It expects contact
 // Will run on repeat updating and re-drawing the shapes to create animations
 function animation() {
-  // This clears the pain from previous frame
-  // Clears each canvas between animation step
+  // This clears the pain from previous frame. Clears each canvas between animation step
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   effect.handleParticle(ctx);
