@@ -7,7 +7,31 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <canvas id="canvas1"></canvas>
     <script src="index.js"></script>
+    <div id="container">
+        <div class="item-wrapper">
+            <label for="mouseRepelRadius">Mouse Repel Radius:</label>
+            <input class="input-field" type="text" id="mouseRepelRadius" oninput="changeMouseRepelRadius()">
+        </div>
+        
+        <div class="item-wrapper">
+            <label for="particleCount">Particle count:</label>
+            <input class="input-field" type="text" id="particleCount" oninput="changeParticleCount()">
+        </div>
+        <div class="item-wrapper">
+            <label for="startColor">Start Color:</label>
+            <input class="input-field" type="text" id="startColor" oninput="updateGradient()">
+        </div>
+        <div class="item-wrapper">
+            <label for="middleColor">Middle Color:</label>
+            <input class="input-field" type="text" id="middleColor" oninput="updateGradient()">
+        </div>
+        <div class="item-wrapper">
+            <label for="endColor">End Color:</label>
+            <input class="input-field" type="text" id="endColor" oninput="updateGradient()">
+        </div>
+    </div>
 </body>
 </html>

@@ -7,18 +7,57 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 (ctx.lineWidth = 2), console.log(ctx);
+
 // Expect 4 argument to define the direction of the gradient
 const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
 // Expect 2 argument, offset and color
 // 0 is the start of the gradient, 1, end of gradient
-gradient.addColorStop(0, "green");
-gradient.addColorStop(0.5, "teal");
-gradient.addColorStop(1, "white");
+gradient.addColorStop(0, 'green');
+gradient.addColorStop(0.5, 'teal');
+gradient.addColorStop(1, 'white');
 ctx.fillStyle = gradient;
 ctx.strokeStyle = "white";
 
-// Contains blueprint for individual particle object 
-// 
+let startColor = "green";
+let middleColor = "teal";
+let endColor = "white";
+
+function updateGradient() {
+    // Retrieve the elements
+    const startColorInput = document.getElementById("startColor");
+    const middleColorInput = document.getElementById("middleColor");
+    const endColorInput = document.getElementById("endColor");
+
+    // Use their value, if no value, set a default value
+    startColor = startColorInput.value || "green";
+    middleColor = middleColorInput.value || "teal";
+    endColor = endColorInput.value || "white";
+
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, startColor);
+    gradient.addColorStop(0.5, middleColor);
+    gradient.addColorStop(1, endColor);
+
+    ctx.fillStyle = gradient;
+}
+
+
+function changeParticleCount() {
+    const particleCountDropdown = document.getElementById("particleCount");
+    if(particleCountDropdown.value<600){
+        const selectedParticleCount = parseInt(particleCountDropdown.value);
+        effect.changeParticleCount(selectedParticleCount);
+    }  
+}
+function changeMouseRepelRadius() {
+    const mouseRepelRadiusInput = document.getElementById("mouseRepelRadius");
+    const newRadius = parseFloat(mouseRepelRadiusInput.value);
+    console.log("New Repel Radius:", newRadius);
+    effect.changeMouseRepelRadius(newRadius);
+}
+
+
+// Contains blueprint for individual particle object
 class Particle {
   // OOP to keep classes modular and independent
   //Not creating copies of effect, just pointing at effect class from multiple places
@@ -67,11 +106,11 @@ class Particle {
       // Move same speed as mouse till they've reached the radius of the mouse
       // Pulls if mouse is pressed   
       if(this.effect.mouse.pressed){
-        this.effect.mouse.radius = 300,
+        // this.effect.mouse.radius = 300,
         this.pushX -= Math.cos(angel);
         this.pushY -= Math.sin(angel);
       } else{
-        this.effect.mouse.radius = 150,
+        // this.effect.mouse.radius = 150,
         this.pushX += Math.cos(angel);
         this.pushY += Math.sin(angel);
       }
@@ -218,21 +257,37 @@ class Effect {
     this.canvas.height = height;
     this.width = width;
     this.height = height;
+
     // Redeclare fillstyle since it will be returned to default state
     // When it's reset you need to recalculate the direction and breakpoints
     const gradient = this.context.createLinearGradient(0, 0, width, height);
     // Expect 2 argument, offset and color
     // 0 is the start of the gradient, 1, end of gradient
-    gradient.addColorStop(0, "green");
-    gradient.addColorStop(0.5, "teal");
-    gradient.addColorStop(1, "white");
+    gradient.addColorStop(0, startColor);
+    gradient.addColorStop(0.5, middleColor);
+    gradient.addColorStop(1, endColor);
     this.context.fillStyle = gradient;
-    this.context.strokeStyle = "white";
+    this.context.strokeStyle = endColor;
+
 
     // The particle will always try to fit the canvas when resized
     this.particles.forEach(particle => {
       particle.reset();
     });
+  }
+
+
+  changeParticleCount(newParticleCount) {
+    // Change the count to the new value
+    this.numberOfParticles = newParticleCount;
+    // Empties the particle array so it's not just constantly incrimented
+    this.particles = [];
+    // Create new particles count
+    this.createParticles();
+}
+changeMouseRepelRadius(newRadius) {
+    // Change the repel radius to the new value
+    this.mouse.radius = newRadius;
   }
 }
 

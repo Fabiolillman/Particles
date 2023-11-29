@@ -3,9 +3,38 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+#container{
+    padding:  1rem;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    background-color: white;
+    opacity: 0.75;
+    width: 100%;
+    height: 5rem;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
 #canvas1{
     background-color: black;
     position: absolute;
     top: 0;
     left: 0;
+}
+
+.item-wrapper{
+    /* background-color: red; */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field{
+    width: 75%;
+    margin: auto;
 }
