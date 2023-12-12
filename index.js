@@ -48,7 +48,7 @@ function updateParticleSizeTo() {
 
 
 function updateStroke() {
-  // Retrieve the elements
+  // Retrieve the html elements
   const strokeColorInput = document.getElementById("strokeColor");
 
   // Use their value, if no value, set a default value
